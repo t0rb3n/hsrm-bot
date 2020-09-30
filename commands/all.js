@@ -2,11 +2,11 @@ module.exports = {
 	name: 'all',
 	description: 'Print every member!',
 	execute(message, args) {
-
+		/* Debug
 		message.guild.roles.cache.each(role => {
 			console.log(role.name, role.id);
 		});
-
+		*/ 
 		const sem12 = message.guild.roles.cache.find(r => r.name === '1/2. Semester');
 		const sem34 = message.guild.roles.cache.find(r => r.name === '3/4. Semester');
 		const sem56 = message.guild.roles.cache.find(r => r.name === '5/6. Semester');

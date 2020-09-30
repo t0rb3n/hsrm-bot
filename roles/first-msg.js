@@ -5,7 +5,7 @@ const addReactions = (message, reactions) => {
 		setTimeout(() => addReactions(message, reactions), 750);
 	}
 };
-//sends a message or edits it in an empty channel
+// sends a message or edits it in an empty channel
 module.exports = async (client, id, text, reactions = []) => {
 	const channel = await client.channels.fetch(id);
 

@@ -8,8 +8,9 @@ module.exports = (client) => {
 
 	// emoji to use and role name
 	const emojis = {
-		'➕': 'Test2',
-		'➖': 'Test3',
+		'🇦': 'AI',
+		'🇲': 'MI',
+		'🇼': 'WI',
 		'1️⃣': '1/2. Semester',
 		'2️⃣': '1/2. Semester',
 		'3️⃣': '3/4. Semester',
@@ -23,7 +24,6 @@ module.exports = (client) => {
 	const reactions = Object.keys(emojis);
 
 	const emojiText = 'Add a reaction to claim a role\n\n!!!';
-	
 
 	firstMessage(client, channelId, emojiText, reactions);
 
@@ -52,15 +52,36 @@ module.exports = (client) => {
 		}
 	};
 
-	client.on('messageReactionAdd', (reaction, user) => {
-		if (reaction.message.channel.id === channelId) {
+	/*  Once a user reacts to a message from the bot in specific channel
+		the Bot will remove this specific reaction from the reactions
+		so you might be able to fix your roles by yourself
+	*/
+
+
+	client.on('messageReactionAdd', async (reaction, user) => {
+		if (reaction.message.channel.id === channelId && user.id != '760446089748283422') {
 			handleReaction(reaction, user, true);
+			client.users.cache.get(user.id).send('Your role has been updated!');
+
+			const userReactions = reaction.message.reactions.cache.filter(react => react.users.cache.has(user.id));
+
+			try {
+				for (const react of userReactions.values()) {
+					await react.users.remove(user.id);
+				}
+			}
+			catch (error) {
+				console.error('Failed to remove reactions.');
+
+
+			}
 		}
 	});
-
-	client.on('messageReactionRemove', (reaction, user) => {
+	// Maybe useful at some time
+	/* client.on('messageReactionRemove', (reaction, user) => {
 		if (reaction.message.channel.id === channelId) {
 			handleReaction(reaction, user, false);
 		}
 	});
+	*/
 };
