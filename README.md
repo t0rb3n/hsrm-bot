@@ -1,4 +1,4 @@
-# hsrm-bot
+# ude-bot
 ## About this bot
 This bot has at the moment to uses. First to update all user roles to the next semester and second to provide a message in a specific channel where new users can react to in order to get their new roles.
 ## Documentation
