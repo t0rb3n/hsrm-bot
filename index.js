@@ -1,6 +1,6 @@
 const fs = require('fs');
+const env = require('dotenv').config();
 const Discord = require('discord.js');
-const { prefix, token } = require('./config.json');
 const roleClaim = require('./roles/roleClaim.js');
 
 const client = new Discord.Client();
@@ -24,7 +24,7 @@ client.once('ready', () => {
 client.on('message', async message => {
 
 	// Checks if prefix is there
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
+	if (!message.content.startsWith(process.env.PREFIX) || message.author.bot) return;
 
 	// gets the arguments in this commands
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
@@ -45,4 +45,4 @@ client.on('message', async message => {
 	}
 });
 
-client.login(token);
+client.login(process.env.TOKEN);
