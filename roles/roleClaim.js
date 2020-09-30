@@ -1,9 +1,10 @@
 const { DiscordAPIError } = require('discord.js');
 const firstMessage = require('./first-msg');
+const db = require('../dbexport.js');
 
 module.exports = (client) => {
 	// channel to write this message
-	const channelId = '760472618322100245';
+	let channelID;
 
 
 	// emoji to use and role name
@@ -25,7 +26,7 @@ module.exports = (client) => {
 
 	const emojiText = 'Add a reaction to claim a role\n\n!!!';
 
-	firstMessage(client, channelId, emojiText, reactions);
+	firstMessage(client, channelID, emojiText, reactions);
 
 	const handleReaction = (reaction, user, add) => {
 		// id of the bot
@@ -56,14 +57,23 @@ module.exports = (client) => {
 		the Bot will remove this specific reaction from the reactions
 		so you might be able to fix your roles by yourself
 	*/
-
-
 	client.on('messageReactionAdd', async (reaction, user) => {
-		if (reaction.message.channel.id === channelId && user.id != '760446089748283422') {
+		// get this servers channel id
+		channelID = await db.get(reaction.message.guild.id);
+
+
+		if (reaction.message.channel.id === channelID && user.id != '760446089748283422') {
 			handleReaction(reaction, user, true);
 			client.users.cache.get(user.id).send('Your role has been updated!');
 
+
+			reaction.message.channel.updateOverwrite(reaction.message.guild.roles.everyone, { ADD_REACTIONS: false, SEND_MESSAGES: false });
+
 			const userReactions = reaction.message.reactions.cache.filter(react => react.users.cache.has(user.id));
+
+
+
+
 
 			try {
 				for (const react of userReactions.values()) {
