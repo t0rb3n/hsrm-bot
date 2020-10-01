@@ -39,7 +39,7 @@ client.on('message', async message => {
 		// get a command object to call it
 		const command = client.commands.get(commandName);
 
-		
+
 		try {
 			command.execute(message, args);
 		}
@@ -50,9 +50,7 @@ client.on('message', async message => {
 	}
 	else {
 		// TODO handle DMs
-
 		message.reply('I don\'t answer to DMs, just like a loyal hoe.');
-
 	}
 
 });

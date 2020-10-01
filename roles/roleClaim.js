@@ -1,10 +1,10 @@
 const { DiscordAPIError } = require('discord.js');
 const firstMessage = require('./first-msg');
-const db = require('../dbexport.js');
 
 module.exports = (client) => {
 	// channel to write this message
-	let channelID;
+	// gets the channel for the UDE Server
+	const channelID = process.env.CHANNEL_ID;
 
 
 	// emoji to use and role name
@@ -30,7 +30,7 @@ module.exports = (client) => {
 
 	const handleReaction = (reaction, user, add) => {
 		// id of the bot
-		if (user.id === '760446089748283422') {
+		if (user.id === process.env.BOT_ID) {
 			return;
 		}
 
@@ -58,11 +58,8 @@ module.exports = (client) => {
 		so you might be able to fix your roles by yourself
 	*/
 	client.on('messageReactionAdd', async (reaction, user) => {
-		// get this servers channel id
-		channelID = await db.get(reaction.message.guild.id);
 
-
-		if (reaction.message.channel.id === channelID && user.id != '760446089748283422') {
+		if (reaction.message.channel.id === channelID && user.id != process.env.BOT_ID) {
 			handleReaction(reaction, user, true);
 			client.users.cache.get(user.id).send('Your role has been updated!');
 
@@ -70,9 +67,6 @@ module.exports = (client) => {
 			reaction.message.channel.updateOverwrite(reaction.message.guild.roles.everyone, { ADD_REACTIONS: false, SEND_MESSAGES: false });
 
 			const userReactions = reaction.message.reactions.cache.filter(react => react.users.cache.has(user.id));
-
-
-
 
 
 			try {
