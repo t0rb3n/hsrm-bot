@@ -1,3 +1,4 @@
 1. be able to change prefix
 2. Set OptOut Role
-2. change emojis to custom 
+3. change emojis to custom 
+4. Change to postgres on heroku
