@@ -47,6 +47,9 @@ module.exports = (client, channelID) => {
 		else {
 			member.roles.remove(role);
 		}
+
+		//Returning rolename so the user can be informed which role he got
+		return roleName
 	};
 
 	/*  Once a user reacts to a message from the bot in specific channel
@@ -56,8 +59,8 @@ module.exports = (client, channelID) => {
 	client.on('messageReactionAdd', async (reaction, user) => {
 
 		if (reaction.message.channel.id === channelID && user.id != process.env.BOT_ID) {
-			handleReaction(reaction, user, true);
-			client.users.cache.get(user.id).send('Your role has been updated!');
+			let rolename = handleReaction(reaction, user, true);
+			client.users.cache.get(user.id).send(`Du hast nun die Rolle ${rolename}!`);
 
 
 			reaction.message.channel.updateOverwrite(reaction.message.guild.roles.everyone, { ADD_REACTIONS: false, SEND_MESSAGES: false });
