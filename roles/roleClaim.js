@@ -25,7 +25,7 @@ module.exports = (client, channelID) => {
 		if (user.id === process.env.BOT_ID) {
 			return;
 		}
-		
+
 		const emoji = reaction._emoji.id;
 		const { guild } = reaction.message;
 

@@ -26,6 +26,8 @@ const Tags = sequelize.define('tags', {
 	channel: Sequelize.STRING,
 });
 
+
+
 Tags.sync()
 	.then(() => {
 		console.log('Database & tables created!');
