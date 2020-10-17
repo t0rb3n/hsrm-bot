@@ -1,14 +1,35 @@
-const env = require('dotenv').config();
-const Keyv = require('keyv');
-const keyv = new Keyv();
-/*
-const keyv = new Keyv('postgresql://'
-            + process.env.DB_USER
-            + ':' + process.env.DB_PASSWORD
-            + '@' + process.env.DB_HOST
-            + ':' + process.env.DB_PORT
-            + '/' + process.env.DB_NAME);
-            */
+const Sequelize = require('sequelize');
 
-keyv.on('error', err => console.log('Connection Error', err));
-module.exports = keyv;
+
+const sequelize = new Sequelize('database', 'user', 'password', {
+	host: 'localhost',
+	dialect: 'sqlite',
+	logging: false,
+	// SQLite only
+	storage: './database.sqlite',
+});
+
+const Tags = sequelize.define('tags', {
+	serverid: {
+		type: Sequelize.STRING,
+		unique: true,
+	},
+	prefix: Sequelize.STRING,
+	roleForAll:{
+		type: Sequelize.STRING,
+		defaultValue: 'admin',
+	},
+	roleToOptOut:{
+		type: Sequelize.STRING,
+		defaultValue: 'default',
+	},
+	channel: Sequelize.STRING,
+});
+
+Tags.sync()
+	.then(() => {
+		console.log('Database & tables created!');
+	});
+
+// Tags.on('error', err => console.log('Connection Error', err));
+module.exports = Tags;

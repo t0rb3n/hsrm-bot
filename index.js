@@ -2,9 +2,12 @@ const fs = require('fs');
 const env = require('dotenv').config();
 const Discord = require('discord.js');
 const roleClaim = require('./roles/roleClaim.js');
+const Tags = require('./dbexport.js');
 
 
 const client = new Discord.Client();
+
+
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -16,9 +19,16 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
-client.once('ready', () => {
+
+client.once('ready', async () => {
 	console.log('Ready!');
-	roleClaim(client);
+
+
+	// go through every channel and setup message
+	const tagList = await Tags.findAll();
+	tagList.forEach(element => {
+		roleClaim(client, element.channel);
+	});
 
 });
 
@@ -41,7 +51,7 @@ client.on('message', async message => {
 
 
 		try {
-			command.execute(message, args);
+			command.execute(client, message, args);
 		}
 		catch (error) {
 			console.error(error);

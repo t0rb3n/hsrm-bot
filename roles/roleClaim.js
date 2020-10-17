@@ -1,11 +1,7 @@
 const { DiscordAPIError } = require('discord.js');
 const firstMessage = require('./first-msg');
 
-module.exports = (client) => {
-	// channel to write this message
-	// gets the channel for the UDE Server
-	const channelID = process.env.CHANNEL_ID;
-
+module.exports = (client, channelID) => {
 
 	// emoji to use and role name
 	const emojis = {
