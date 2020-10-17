@@ -47,7 +47,7 @@ module.exports = (client, channelID) => {
 		}
 
 		//Returning rolename so the user can be informed which role he got
-		return roleName
+		return roleName;
 	};
 
 	/*  Once a user reacts to a message from the bot in specific channel

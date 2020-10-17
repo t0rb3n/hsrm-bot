@@ -25,14 +25,14 @@ module.exports = {
 			if (e.name === 'SequelizeUniqueConstraintError') {
 				// update the tag accordingly
 
-				//update the ChannelID for given Server if an entry already exists
+				// update the ChannelID for given Server if an entry already exists
 				const affectedRows = await Tags.update({ channel: message.channel.id }, { where: { serverid: message.guild.id } });
 				if (affectedRows > 0) {
 					// return message.reply(`Tag was edited.`);
 					await roleClaim(client, message.channel.id);
 					return;
 				}
-				return message.reply(`Could not find a tag or something else happend.`);
+				return message.reply('Could not find a tag or something else happend.');
 
 
 			}
