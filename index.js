@@ -2,8 +2,10 @@ const fs = require('fs');
 const env = require('dotenv').config();
 const Discord = require('discord.js');
 const roleClaim = require('./roles/roleClaim.js');
+const Tags = require('./dbexport.js');
 
 const client = new Discord.Client();
+
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -15,9 +17,16 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
-client.once('ready', () => {
+
+client.once('ready', async () => {
 	console.log('Ready!');
-	roleClaim(client);
+
+
+	// go through every channel and setup message
+	const tagList = await Tags.findAll();
+	tagList.forEach(element => {
+		roleClaim(client, element.channel);
+	});
 
 });
 
@@ -26,23 +35,38 @@ client.on('message', async message => {
 	// Checks if prefix is there
 	if (!message.content.startsWith(process.env.PREFIX) || message.author.bot) return;
 
-	// gets the arguments in this commands
-	const args = message.content.slice(prefix.length).trim().split(/ +/);
-	// retrieve commandname
-	const commandName = args.shift().toLowerCase();
+	// if message occurs on server
+	if (message.guild) {
+		// gets the arguments in this commands
+		const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/);
+		// retrieve commandname
+		const commandName = args.shift().toLowerCase();
 
-	// if this command doesnt exist just return
-	if (!client.commands.has(commandName)) return;
-	// get a command object to call it
-	const command = client.commands.get(commandName);
+		// if this command doesnt exist just return
+		if (!client.commands.has(commandName)) return;
+		// get a command object to call it
+		const command = client.commands.get(commandName);
 
-	try {
-		command.execute(message, args);
+
+		try {
+			command.execute(client, message, args);
+		}
+		catch (error) {
+			console.error(error);
+			message.reply('there was an error trying to execute that command!');
+		}
 	}
-	catch (error) {
-		console.error(error);
-		message.reply('there was an error trying to execute that command!');
+	else {
+		// TODO handle DMs
+		message.reply('I don\'t answer to DMs, just like a loyal hoe.');
 	}
+
 });
 
-client.login(process.env.TOKEN);
+if(process.env.PRODUCTION) {
+	client.login(process.env.BOT_TOKEN_PROD);
+}
+else {
+	client.login(process.env.BOT_TOKEN_DEV);
+}
+

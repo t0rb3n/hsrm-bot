@@ -4,7 +4,8 @@
   "description": "A discord bot for the UDE Discord Server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,15 @@
   },
   "homepage": "https://github.com/t0rb3n/hsrm-bot#readme",
   "dependencies": {
+    "@keyv/postgres": "^1.0.16",
     "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
-    "eslint": "^7.10.0"
+    "eslint": "^7.10.0",
+    "keyv": "^4.0.3",
+    "mysql2": "^2.2.5",
+    "pg": "^8.4.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0"
   }
 }
