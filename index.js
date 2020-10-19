@@ -63,5 +63,10 @@ client.on('message', async message => {
 
 });
 
+if(process.env.PRODUCTION) {
+	client.login(process.env.BOT_TOKEN_PROD);
+}
+else {
+	client.login(process.env.BOT_TOKEN_DEV);
+}
 
-client.login(process.env.TOKEN);

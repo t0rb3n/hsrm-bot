@@ -1,4 +1,4 @@
-const { DiscordAPIError } = require('discord.js');
+const Discord = require('discord.js');
 const firstMessage = require('./first-msg');
 
 module.exports = (client, channelID) => {
@@ -8,12 +8,11 @@ module.exports = (client, channelID) => {
 		'767107540433502248': 'MI',
 		'767107540432846888': 'AI',
 		'767107540508475392': 'WI',
-		'767054643191873546': 'ITS',
+		'767107540269137921': 'ITS',
 		'767107540516995162': '1/2. Semester',
 		'767107540240302091': '3/4. Semester',
 		'767107540185120831': '5/6. Semester',
 		'767107540131119115': '7.+ Semester',
-
 	};
 	// add the keys from emojis as reaction to the message
 	const reactions = Object.keys(emojis);
@@ -34,11 +33,11 @@ module.exports = (client, channelID) => {
 			return;
 		}
 
-		const role = guild.roles.cache.find((role) => role.name === roleName);
-		const studentenRolle = guild.roles.cache.find((role) => role.name === "Student HsRm (UdE)");
-		const newcomer = guild.roles.cache.find((role) => role.name === "Neuankömmling");
+		const role = guild.roles.cache.find((r) => r.name === roleName);
+		const studentenRolle = guild.roles.cache.find((r) => r.name === 'Student HsRm (UdE)');
+		const newcomer = guild.roles.cache.find((r) => r.name === 'Neuankömmling');
 
-		const member = guild.members.cache.find((member) => member.id === user.id);
+		const member = guild.members.cache.find((m) => m.id === user.id);
 
 		if (add) {
 			member.roles.add(studentenRolle);
@@ -58,9 +57,8 @@ module.exports = (client, channelID) => {
 		so you might be able to fix your roles by yourself
 	*/
 	client.on('messageReactionAdd', async (reaction, user) => {
-
 		if (reaction.message.channel.id === channelID && user.id != process.env.BOT_ID) {
-			let rolename = handleReaction(reaction, user, true);
+			const rolename = handleReaction(reaction, user, true);
 			client.users.cache.get(user.id).send(`Du hast nun die Rolle ${rolename}!`);
 
 

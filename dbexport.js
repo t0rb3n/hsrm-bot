@@ -1,7 +1,20 @@
 const Sequelize = require('sequelize');
+let sequelize = null;
 
-
-const sequelize = new Sequelize('mysql://suzq657hyicuhbi5:m3dr9yqp5somru4l@ryfqldzbliwmq6g5.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/nnjy3p5ea9cau0aq');
+if(process.env.PRODUCTION) {
+	sequelize = new Sequelize(process.env.JAWSDB_URL);
+	process.env.BOT_ID = process.env.BOT_ID_PROD;
+}
+else {
+	sequelize = new Sequelize('database', 'user', 'password', {
+		host: 'localhost',
+		dialect: 'sqlite',
+		logging: false,
+		// SQLite only
+		storage: './database.sqlite',
+	});
+	process.env.BOT_ID = process.env.BOT_ID_DEV;
+}
 
 
 checkConnection(sequelize);
@@ -12,6 +25,7 @@ const Tags = sequelize.define('tags', {
 		type: Sequelize.STRING,
 		unique: true,
 	},
+	servername: Sequelize.STRING,
 	prefix: Sequelize.STRING,
 	roleForAll:{
 		type: Sequelize.STRING,

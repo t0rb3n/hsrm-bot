@@ -6,10 +6,5 @@ module.exports = {
 	description: 'Ping!',
 	async execute(client, message, args) {
 		message.channel.send('Pong.');
-			
-			
-			const reactionEmoji = message.guild.emojis.cache.find(emoji => emoji.name === 'mi');
-			message.react(reactionEmoji);
-
 	},
 };

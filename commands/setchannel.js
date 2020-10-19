@@ -14,8 +14,10 @@ module.exports = {
 			// equivalent to: INSERT INTO tags (serverid,prefix,channel) values (x,x,x,);
 			const tag = await Tags.create({
 				serverid: message.guild.id,
+				servername: message.guild.name,
 				prefix: '!',
 				channel: message.channel.id,
+
 			});
 
 			await roleClaim(client, message.channel.id);
