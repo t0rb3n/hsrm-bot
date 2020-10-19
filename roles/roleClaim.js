@@ -35,18 +35,21 @@ module.exports = (client, channelID) => {
 		}
 
 		const role = guild.roles.cache.find((role) => role.name === roleName);
-
+		const studentenRolle = guild.roles.cache.find((role) => role.name === "Student HsRm (UdE)");
+		const newcomer = guild.roles.cache.find((role) => role.name === "Neuankömmling");
 
 		const member = guild.members.cache.find((member) => member.id === user.id);
 
 		if (add) {
+			member.roles.add(studentenRolle);
 			member.roles.add(role);
+			member.roles.remove(newcomer);
 		}
 		else {
 			member.roles.remove(role);
 		}
 
-		//Returning rolename so the user can be informed which role he got
+		// Returning rolename so the user can be informed which role he got
 		return roleName;
 	};
 
