@@ -5,8 +5,8 @@ module.exports = (client, channelID) => {
 
 	// emoji to use and role name
 	const emojis = {
-		'767107540432846888': 'AI',
 		'767107540433502248': 'MI',
+		'767107540432846888': 'AI',
 		'767107540508475392': 'WI',
 		'767054643191873546': 'ITS',
 		'767107540516995162': '1/2. Semester',

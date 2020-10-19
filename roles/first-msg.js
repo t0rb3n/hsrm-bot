@@ -26,10 +26,16 @@ module.exports = async (client, id, reactions = []) => {
 			{ name: '<:ai:767107540432846888>', value: 'Angewandte Informatik', inline: true },
 			{ name: '<:wi:767107540508475392>', value: 'Wirtschaftsinformatik', inline: true },
 			{ name: '<:its:767054643191873546>', value: 'Informatik - Technische Systeme', inline: true },
+			{
+                name: '\u200B',
+                value: '\u200B',
+            },
 			{ name: '<:semester34:767107540516995162>', value: '1. oder 2. Semester', inline: true },
 			{ name: '<:semester34:767107540240302091>', value: '3. oder 4. Semester', inline: true },
 			{ name: '<:semester56:767107540185120831>', value: '5. oder 6. Semester', inline: true},
 			{ name: '<:semester7:767107540131119115>', value: '7. Semester oder höher', inline: true },
+
+
 		)
 		.setFooter('Drückt auf die entsprechenden Emojis hier unter dieser Nachricht um Teil der Gruppe zu werden');
 

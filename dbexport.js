@@ -1,26 +1,7 @@
 const Sequelize = require('sequelize');
 
-/*
-const sequelize = new Sequelize('database', 'user', 'password', {
-	host: 'localhost',
-	dialect: 'sqlite',
-	logging: false,
-	// SQLite only
-	storage: './database.sqlite',
-});
-	new Sequelize('postgres://:@:5432/');
 
-*/
-
-const sequelize = new Sequelize('ddie8i3m9aiv64', 'ddie8i3m9aiv64', 'a21c55fdc86698481dafc386e2035d9fa3824a6ceb736839c879ee91dfcee79b', {
-	host: 'ec2-34-251-118-151.eu-west-1.compute.amazonaws.com',
-	dialect: 'postgres',
-	port: 5432,
-	logging: false,
-	dialectOptions: {
-		ssl: true,
-	},
-});
+const sequelize = new Sequelize('mysql://suzq657hyicuhbi5:m3dr9yqp5somru4l@ryfqldzbliwmq6g5.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/nnjy3p5ea9cau0aq');
 
 
 checkConnection(sequelize);
