@@ -1,8 +1,8 @@
 // Not working and not needed to work at the moment
 const { Tags, Emojis } = require('../dbexport.js');
 module.exports = {
-	name: 'setchannel2',
-	description: 'setchannel2!',
+	name: 'setchannel',
+	description: 'setchannel!',
 	async execute(client, message, args) {
 
 		message.channel.bulkDelete(1);
