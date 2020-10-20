@@ -46,9 +46,7 @@ module.exports = (client, channelID, emojis) => {
 			const rolename = handleReaction(reaction, user, true);
 			client.users.cache.get(user.id).send(`Du hast nun die Rolle ${rolename}!`);
 
-
 			reaction.message.channel.updateOverwrite(reaction.message.guild.roles.everyone, { ADD_REACTIONS: false, SEND_MESSAGES: false });
-
 
 		}
 	});
