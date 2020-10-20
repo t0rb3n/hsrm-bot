@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-
+const {Tags, Emojis} = require('../dbexport.js');
 
 const addReactions = (message, reactions) => {
 	message.react(reactions[0]);
@@ -14,6 +14,13 @@ const addReactions = (message, reactions) => {
 module.exports = async (client, id, reactions = []) => {
 	if(id === undefined) return;
 
+	// get the server id for this channel
+	const serverid = await Tags.findAll({
+		attributes: ['serverid'],
+		where: {
+			channel: id,
+		},
+	});
 
 	const embed = new Discord.MessageEmbed()
 		.setColor('#0e4aa8')
@@ -21,23 +28,37 @@ module.exports = async (client, id, reactions = []) => {
 		.setAuthor('Die verfügbaren Rollen')
 		.setDescription('Hier findet ihr andere Studenten der Hochschule RheinMain. Aktuell unterteilen wir den Server in die einzelnen Fachbereiche.')
 		.setThumbnail('https://i.imgur.com/KbOmm2w.jpg')
-		.addFields(
-			{ name: '<:mi:767107540433502248>', value: 'Medieninformatik', inline: true },
-			{ name: '<:ai:767107540432846888>', value: 'Angewandte Informatik', inline: true },
-			{ name: '<:wi:767107540508475392>', value: 'Wirtschaftsinformatik', inline: true },
-			{ name: '<:its:767054643191873546>', value: 'Informatik - Technische Systeme', inline: true },
-			{
-				name: '\u200B',
-				value: '\u200B',
-			},
-			{ name: '<:semester34:767107540516995162>', value: '1. oder 2. Semester', inline: true },
-			{ name: '<:semester34:767107540240302091>', value: '3. oder 4. Semester', inline: true },
-			{ name: '<:semester56:767107540185120831>', value: '5. oder 6. Semester', inline: true },
-			{ name: '<:semester7:767107540131119115>', value: '7. Semester oder höher', inline: true },
-
-
-		)
 		.setFooter('Drückt auf die entsprechenden Emojis hier unter dieser Nachricht um Teil der Gruppe zu werden');
+
+	// Build all the emojis and strings for the given emojilist
+	const emojilist = await Emojis.findAll({
+		attributes: ['emojiString', 'embedText'],
+		where: {
+			serverid: serverid[0].serverid,
+		},
+	});
+//TODO two lists: one for studiengägnge one for semester
+	const semesterArray = {};
+
+
+	emojilist.forEach(e => {
+		if(e.embedText.includes('Semester')) {
+			semesterArray[e.emojiString] = e.embedText;
+			return;
+		}
+
+		embed.addFields(
+			{ name: e.emojiString, value:  e.embedText, inline:true },
+		);
+	});
+	embed.addFields({name: '\u200B', value: '\u200B' });
+
+
+	for(const key in semesterArray) {
+		embed.addFields(
+			{ name: key, value:  semesterArray[key], inline:true },
+		);
+	}
 
 	const channel = await client.channels.fetch(id);
 	// gets all messages in this given channel
