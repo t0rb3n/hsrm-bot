@@ -1,10 +1,20 @@
-//acts as test playground
-const {Tags, emojis} = require('../dbexport.js');
-const Discord = require('discord.js');
+// acts as test playground
+const { MessageEmbed } = require('discord.js');
 module.exports = {
 	name: 'ping',
 	description: 'Ping!',
 	async execute(client, message, args) {
-		message.channel.send('Pong.');
+		const msg = await message.channel.send('Pinging...');
+		const Embed = new MessageEmbed()
+			.setTitle('Pong!')
+			.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
+			.setDescription(
+				`⌛ Latency is ${Math.floor(
+					msg.createdTimestamp - message.createdTimestamp,
+				)}ms\n⏲️ API Ping is ${Math.round(client.ws.ping)}`,
+			)
+			.setColor('#fb644c');
+		msg.edit(Embed);
+		msg.edit('\u200b');
 	},
 };
