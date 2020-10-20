@@ -37,7 +37,7 @@ module.exports = async (client, id, reactions = []) => {
 			serverid: serverid[0].serverid,
 		},
 	});
-
+//TODO two lists: one for studiengägnge one for semester
 	const emojiArray = {};
 	emojilist.forEach(e => {
 		embed.addFields(

@@ -49,9 +49,9 @@ module.exports = (client, channelID, emojis) => {
 
 			reaction.message.channel.updateOverwrite(reaction.message.guild.roles.everyone, { ADD_REACTIONS: false, SEND_MESSAGES: false });
 
-			const userReactions = reaction.message.reactions.cache.filter(react => react.users.cache.has(user.id));
+			//const userReactions = reaction.message.reactions.cache.filter(react => react.users.cache.has(user.id));
 
-
+			/*
 			try {
 				for (const react of userReactions.values()) {
 					await react.users.remove(user.id);
@@ -61,14 +61,15 @@ module.exports = (client, channelID, emojis) => {
 				console.error('Failed to remove reactions.');
 
 
-			}
+			}*/
+
 		}
 	});
 	// Maybe useful at some time
-	/* client.on('messageReactionRemove', (reaction, user) => {
-		if (reaction.message.channel.id === channelId) {
+	client.on('messageReactionRemove', (reaction, user) => {
+		if (reaction.message.channel.id === channelID && user.id != process.env.BOT_ID) {
 			handleReaction(reaction, user, false);
 		}
 	});
-	*/
+
 };
