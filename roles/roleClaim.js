@@ -26,8 +26,8 @@ module.exports = (client, channelID, emojis) => {
 
 		if (add) {
 			member.roles.add(studentenRolle).catch(console.error);
-			member.roles.add(role);
-			member.roles.remove(newcomer);
+			member.roles.add(role).catch(console.error);;
+			member.roles.remove(newcomer).catch(console.error);;
 		}
 		else {
 			member.roles.remove(role);
@@ -49,7 +49,7 @@ module.exports = (client, channelID, emojis) => {
 
 			reaction.message.channel.updateOverwrite(reaction.message.guild.roles.everyone, { ADD_REACTIONS: false, SEND_MESSAGES: false });
 
-			//const userReactions = reaction.message.reactions.cache.filter(react => react.users.cache.has(user.id));
+			// const userReactions = reaction.message.reactions.cache.filter(react => react.users.cache.has(user.id));
 
 			/*
 			try {

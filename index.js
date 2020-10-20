@@ -47,6 +47,10 @@ client.once('ready', async () => {
 
 });
 
+
+
+
+
 client.on('message', async message => {
 
 	// Checks if prefix is there
@@ -87,3 +91,8 @@ else {
 	client.login(process.env.BOT_TOKEN_DEV);
 }
 
+
+client.on('guildMemberAdd', member => {
+	const studentenRolle = member.guild.roles.cache.find((r) => r.name === 'Neuankömmling');
+	member.roles.add(studentenRolle);
+});
