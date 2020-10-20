@@ -1,19 +1,9 @@
 const Discord = require('discord.js');
 const firstMessage = require('./first-msg');
 
-module.exports = (client, channelID) => {
+module.exports = (client, channelID, emojis) => {
 
-	// emoji to use and role name
-	const emojis = {
-		'767107540433502248': 'MI',
-		'767107540432846888': 'AI',
-		'767107540508475392': 'WI',
-		'767107540269137921': 'ITS',
-		'767107540516995162': '1/2. Semester',
-		'767107540240302091': '3/4. Semester',
-		'767107540185120831': '5/6. Semester',
-		'767107540131119115': '7.+ Semester',
-	};
+
 	// add the keys from emojis as reaction to the message
 	const reactions = Object.keys(emojis);
 
@@ -24,23 +14,19 @@ module.exports = (client, channelID) => {
 		if (user.id === process.env.BOT_ID) {
 			return;
 		}
-
 		const emoji = reaction._emoji.id;
 		const { guild } = reaction.message;
 
-		const roleName = emojis[emoji];
-		if (!roleName) {
-			return;
-		}
 
-		const role = guild.roles.cache.find((r) => r.name === roleName);
+		const roleID = emojis[emoji];
+		const role = guild.roles.cache.get(roleID);
 		const studentenRolle = guild.roles.cache.find((r) => r.name === 'Student HsRm (UdE)');
 		const newcomer = guild.roles.cache.find((r) => r.name === 'Neuankömmling');
 
 		const member = guild.members.cache.find((m) => m.id === user.id);
 
 		if (add) {
-			member.roles.add(studentenRolle);
+			member.roles.add(studentenRolle).catch(console.error);
 			member.roles.add(role);
 			member.roles.remove(newcomer);
 		}
@@ -49,7 +35,7 @@ module.exports = (client, channelID) => {
 		}
 
 		// Returning rolename so the user can be informed which role he got
-		return roleName;
+		return role.name;
 	};
 
 	/*  Once a user reacts to a message from the bot in specific channel

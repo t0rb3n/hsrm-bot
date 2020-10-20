@@ -2,10 +2,10 @@
 const roleClaim = require('../roles/roleClaim.js');
 
 
-const Tags = require('../dbexport.js');
+const {Tags, Emojis} = require('../dbexport.js');
 module.exports = {
-	name: 'setchannel',
-	description: 'setchannel!',
+	name: 'setchannel2',
+	description: 'setchannel2!',
 	async execute(client, message, args) {
 
 		message.channel.bulkDelete(1);
@@ -19,9 +19,7 @@ module.exports = {
 				channel: message.channel.id,
 
 			});
-
-			await roleClaim(client, message.channel.id);
-			return;
+			return message.reply('Please define your emojis to react with now or execute the !start command!');
 		}
 		catch (e) {
 			if (e.name === 'SequelizeUniqueConstraintError') {
@@ -31,7 +29,7 @@ module.exports = {
 				const affectedRows = await Tags.update({ channel: message.channel.id }, { where: { serverid: message.guild.id } });
 				if (affectedRows > 0) {
 					// return message.reply(`Tag was edited.`);
-					await roleClaim(client, message.channel.id);
+					//await roleClaim(client, message.channel.id);
 					return;
 				}
 				return message.reply('Could not find a tag or something else happend.');

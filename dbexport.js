@@ -37,7 +37,21 @@ const Tags = sequelize.define('tags', {
 	},
 	channel: Sequelize.STRING,
 });
-
+const Emojis = sequelize.define('emojis', {
+	serverid: {
+		type: Sequelize.STRING,
+	},
+	emojiString: Sequelize.STRING,
+	roleToGive:{
+		type: Sequelize.STRING,
+		allowNull: false,
+	},
+	embedText: {
+		type: Sequelize.STRING,
+		allowNull: false,
+	},
+});
+Emojis.sync().then(()=> { console.log('Emojis synced');});
 
 Tags.sync()
 	.then(() => {
@@ -45,8 +59,7 @@ Tags.sync()
 	});
 
 // Tags.on('error', err => console.log('Connection Error', err));
-module.exports = Tags;
-
+module.exports = { Tags, Emojis };
 
 async function checkConnection(seq) {
 	try {
@@ -57,3 +70,5 @@ async function checkConnection(seq) {
 		console.error('Unable to connect to the database:', error);
 	}
 }
+
+
