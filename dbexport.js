@@ -70,5 +70,3 @@ async function checkConnection(seq) {
 		console.error('Unable to connect to the database:', error);
 	}
 }
-
-

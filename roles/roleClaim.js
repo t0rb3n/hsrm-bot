@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 const firstMessage = require('./first-msg');
 
 module.exports = (client, channelID, emojis) => {

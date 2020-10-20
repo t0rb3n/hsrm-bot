@@ -1,8 +1,5 @@
 // Not working and not needed to work at the moment
-const roleClaim = require('../roles/roleClaim.js');
-
-
-const {Tags, Emojis} = require('../dbexport.js');
+const { Tags, Emojis } = require('../dbexport.js');
 module.exports = {
 	name: 'setchannel2',
 	description: 'setchannel2!',
@@ -12,7 +9,7 @@ module.exports = {
 
 		try {
 			// equivalent to: INSERT INTO tags (serverid,prefix,channel) values (x,x,x,);
-			const tag = await Tags.create({
+			const tags = await Tags.create({
 				serverid: message.guild.id,
 				servername: message.guild.name,
 				prefix: '!',
@@ -23,15 +20,10 @@ module.exports = {
 		}
 		catch (e) {
 			if (e.name === 'SequelizeUniqueConstraintError') {
-				// update the tag accordingly
 
 				// update the ChannelID for given Server if an entry already exists
-				const affectedRows = await Tags.update({ channel: message.channel.id }, { where: { serverid: message.guild.id } });
-				if (affectedRows > 0) {
-					// return message.reply(`Tag was edited.`);
-					//await roleClaim(client, message.channel.id);
-					return;
-				}
+				await Tags.update({ channel: message.channel.id }, { where: { serverid: message.guild.id } });
+
 				return message.reply('Could not find a tag or something else happend.');
 
 
