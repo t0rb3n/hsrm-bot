@@ -38,7 +38,8 @@ client.once('ready', async () => {
 
 		const emojiArray = {};
 		emojilist.forEach(e => {
-			const id = e.emojiString.match(/([0-9]+)/)[0];
+			// using a regex look-behind
+			const id = e.emojiString.match(/(?<=:)[0-9]+/)[0];
 			emojiArray[id] = e.roleToGive;
 		});
 

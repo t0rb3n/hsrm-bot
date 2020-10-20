@@ -15,13 +15,21 @@ module.exports = {
 				serverid: message.guild.id,
 			},
 		});
-
+		const semesterArray = {};
 		const emojiArray = {};
 		emojilist.forEach(e => {
-			const id = e.emojiString.match(/([0-9]+)/)[0];
+			if(e.emojiString.includes('semester')) {
+				const id = e.emojiString.match(/(?<=:)[0-9]+/)[0];
+				semesterArray[id] = e.embedText;
+				return;
+			}
+			const id = e.emojiString.match(/(?<=:)[0-9]+/)[0];
 			emojiArray[id] = e.roleToGive;
 		});
-
+		
+		for(const key in semesterArray) {
+			emojiArray[key] = semesterArray[key];
+		}
 
 
 		const channelList = await Tags.findAll({

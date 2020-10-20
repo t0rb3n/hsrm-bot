@@ -38,12 +38,27 @@ module.exports = async (client, id, reactions = []) => {
 		},
 	});
 //TODO two lists: one for studiengägnge one for semester
-	const emojiArray = {};
+	const semesterArray = {};
+
+
 	emojilist.forEach(e => {
+		if(e.embedText.includes('Semester')) {
+			semesterArray[e.emojiString] = e.embedText;
+			return;
+		}
+
 		embed.addFields(
 			{ name: e.emojiString, value:  e.embedText, inline:true },
 		);
 	});
+	embed.addFields({name: '\u200B', value: '\u200B' });
+
+
+	for(const key in semesterArray) {
+		embed.addFields(
+			{ name: key, value:  semesterArray[key], inline:true },
+		);
+	}
 
 	const channel = await client.channels.fetch(id);
 	// gets all messages in this given channel
