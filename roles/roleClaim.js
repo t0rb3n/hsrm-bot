@@ -53,7 +53,8 @@ module.exports = (client, channelID, emojis) => {
 	// Maybe useful at some time
 	client.on('messageReactionRemove', (reaction, user) => {
 		if (reaction.message.channel.id === channelID && user.id != process.env.BOT_ID) {
-			handleReaction(reaction, user, false);
+			const rolename = handleReaction(reaction, user, false);
+			client.users.cache.get(user.id).send(`Du hast nun nicht mehr die Rolle ${rolename}!`);
 		}
 	});
 
