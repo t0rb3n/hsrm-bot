@@ -4,7 +4,7 @@ module.exports = {
 	description: 'tries to mention a user who only has the student role but no semester role!',
 	async execute(client, message, args) {
 
-
+// TODO add case dozent and master
 		message.channel.send('Students that only have the student role but no semester role:');
 
 		const userArray = [];

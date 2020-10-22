@@ -4,7 +4,6 @@ module.exports = {
 	description: 'tries to mention a user who has only studiengang role!',
 	async execute(client, message, args) {
 
-
 		const userArray = [];
 		message.channel.send('Studenten die nur Studiengangs Rolle aber keine Semester Rolle haben:');
 
@@ -12,11 +11,13 @@ module.exports = {
 		message.guild.members.cache.each(member => {
 			// Doesnt work with the object from above
 
-			if(member.roles.cache.find(r => r.name === 'MI')
+			if(!member.roles.cache.find(r => r.name === 'Dozent')
+				&& !member.roles.cache.find(r => r.name === 'Master')
+				&& (member.roles.cache.find(r => r.name === 'MI')
 				|| member.roles.cache.find(r => r.name === 'AI')
 				|| member.roles.cache.find(r => r.name === 'ITS')
 				|| member.roles.cache.find(r => r.name === 'WI')
-				|| member.roles.cache.find(r => r.name === 'MM')) {
+				|| member.roles.cache.find(r => r.name === 'MM'))) {
 
 
 				if(!member.roles.cache.find(r => r.name === '1/2. Semester')
