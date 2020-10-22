@@ -1,8 +1,8 @@
 const fs = require('fs');
 const env = require('dotenv').config();
 const Discord = require('discord.js');
-const roleClaim = require('./roles/roleClaim.js');
-const { Tags, Emojis } = require('./dbexport.js');
+
+
 
 const client = new Discord.Client();
 
@@ -19,37 +19,8 @@ for (const file of commandFiles) {
 
 
 client.once('ready', async () => {
-	console.log('Ready!');
-
-
-	// go through every channel and setup message
-	const tagList = await Tags.findAll();
-	tagList.forEach(async element => {
-
-		const emojilist = await Emojis.findAll({
-			attributes: ['emojiString', 'roleToGive'],
-			where: {
-				serverid: element.serverid,
-			},
-		});
-		if(emojilist.length == 0) {
-			return;
-		}
-
-		const emojiArray = {};
-		emojilist.forEach(e => {
-			// using a regex look-behind
-			const id = e.emojiString.match(/(?<=:)[0-9]+/)[0];
-			emojiArray[id] = e.roleToGive;
-		});
-
-		roleClaim(client, element.channel, emojiArray);
-	});
-
+	require('./events/clientReady.js')(client);
 });
-
-
-
 
 
 client.on('message', async message => {
@@ -94,6 +65,5 @@ else {
 
 
 client.on('guildMemberAdd', member => {
-	const studentenRolle = member.guild.roles.cache.find((r) => r.name === 'Neuankömmling');
-	member.roles.add(studentenRolle);
+	require('./events/guildMemberAdd.js')(member, client);
 });

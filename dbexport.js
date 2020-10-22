@@ -36,6 +36,10 @@ const Tags = sequelize.define('tags', {
 		defaultValue: 'default',
 	},
 	channel: Sequelize.STRING,
+	roleForNewUsers:{
+		type: Sequelize.STRING,
+		defaultValue: 'Neuankömmling',
+	},
 });
 const Emojis = sequelize.define('emojis', {
 	serverid: {
@@ -53,7 +57,7 @@ const Emojis = sequelize.define('emojis', {
 });
 Emojis.sync().then(()=> { console.log('Emojis synced');});
 
-Tags.sync()
+Tags.sync({alter: true})
 	.then(() => {
 		console.log('Database & tables created!');
 	});
