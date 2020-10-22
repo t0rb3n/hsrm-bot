@@ -21,6 +21,7 @@ module.exports = {
 
 				if(!member.roles.cache.find(r => r.name === '1/2. Semester')
 					&& !member.roles.cache.find(r => r.name === '3/4. Semester')
+					&& !member.roles.cache.find(r => r.name === '5/6. Semester')
 					&& !member.roles.cache.find(r => r.name === '7.+ Semester')) {
 
 
