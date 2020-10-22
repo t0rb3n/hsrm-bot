@@ -26,8 +26,8 @@ module.exports = (client, channelID, emojis) => {
 
 		if (add) {
 			member.roles.add(studentenRolle).catch(console.error);
-			member.roles.add(role).catch(console.error);;
-			member.roles.remove(newcomer).catch(console.error);;
+			member.roles.add(role).catch(console.error);
+			member.roles.remove(newcomer).catch(console.error);
 		}
 		else {
 			member.roles.remove(role);
