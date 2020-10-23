@@ -4,6 +4,8 @@ module.exports = {
 	description: 'tries to mention a user who has more than one semester role!',
 	async execute(client, message, args) {
 
+
+		// TODO add case dozent and master
 		message.channel.send('Studenten die mehr als eine Semester Rolle haben:');
 
 		const userArray = [];
