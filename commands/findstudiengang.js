@@ -4,6 +4,10 @@ module.exports = {
 	description: 'tries to mention a user who has only studiengang role!',
 	async execute(client, message, args) {
 
+		let send = '';
+		if(args.length > 0) {
+			send = args[0];
+		}
 		const userArray = [];
 		message.channel.send('Studenten die nur Studiengangs Rolle aber keine Semester Rolle haben:');
 
@@ -34,8 +38,18 @@ module.exports = {
 		if(userArray.length == 0) {
 			message.channel.send('Es gibt keine. Yay ヽ(^o^)ノ');
 		}
-		userArray.forEach(m => {
+		userArray.forEach(async (m) => {
 			message.channel.send('<@' + m + '>');
+			if(send === 'send') {
+				try {
+					await client.users.cache.get(m).send('Hey, es scheint so als wären auf dem UdE-Discord-Server deine Rollen nicht ganz richtig. Setze dir im <#767825439208374292> -Channel doch bitte ein Semester. Danke ^-^ \nFalls du Fragen hast, kannst du im <#767825199374270524>-Channel um Hilfe bitten.');
+				}
+				catch(e) {
+					console.error(e);
+					console.log('This user probably disabled DMs.');
+				}
+			}
+
 		});
 	},
 };
