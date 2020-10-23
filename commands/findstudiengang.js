@@ -39,17 +39,21 @@ module.exports = {
 			message.channel.send('Es gibt keine. Yay ヽ(^o^)ノ');
 		}
 		userArray.forEach(async (m) => {
-			message.channel.send('<@' + m + '>');
+			
 			if(send === 'send') {
 				try {
+					console.log(m);
 					await client.users.cache.get(m).send('Hey, es scheint so als wären auf dem UdE-Discord-Server deine Rollen nicht ganz richtig. Setze dir im <#767825439208374292> -Channel doch bitte ein Semester. Danke ^-^ \nFalls du Fragen hast, kannst du im <#767825199374270524>-Channel um Hilfe bitten.');
 				}
 				catch(e) {
 					console.error(e);
 					console.log('This user probably disabled DMs.');
 				}
+			} else {
+				message.channel.send('<@' + m + '>');	
 			}
-
 		});
+		message.channel.send('Done!');
+		
 	},
 };
