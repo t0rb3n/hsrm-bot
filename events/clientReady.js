@@ -21,7 +21,7 @@ module.exports = async (client) => {
 
 		const emojiArray = {};
 		emojilist.forEach(e => {
-			// using a regex look-behind
+			// using a regex look-behind to find the id of the emoji
 			const id = e.emojiString.match(/(?<=:)[0-9]+/)[0];
 			emojiArray[id] = e.roleToGive;
 		});

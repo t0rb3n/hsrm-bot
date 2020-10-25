@@ -57,7 +57,7 @@ const Emojis = sequelize.define('emojis', {
 });
 Emojis.sync().then(()=> { console.log('Emojis synced');});
 
-Tags.sync({alter: true})
+Tags.sync()
 	.then(() => {
 		console.log('Database & tables created!');
 	});

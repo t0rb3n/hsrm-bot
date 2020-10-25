@@ -1,4 +1,5 @@
-// acts as test playground
+// TODO CHANGE ORDER OF REACTION ROLES IN ORDER TO BE ABLE TO ADD MORE STUDIENGÄNGE AT THE END
+// OR CREATE ONE message FOR Studengang and for semester. probably better nontheless
 const { Tags, Emojis } = require('../dbexport.js');
 const Discord = require('discord.js');
 const roleClaim = require('../roles/roleClaim.js');
@@ -26,7 +27,7 @@ module.exports = {
 			const id = e.emojiString.match(/(?<=:)[0-9]+/)[0];
 			emojiArray[id] = e.roleToGive;
 		});
-		
+
 		for(const key in semesterArray) {
 			emojiArray[key] = semesterArray[key];
 		}
