@@ -1,6 +1,6 @@
 const { Tags, Emojis } = require('../dbexport.js');
 const Discord = require('discord.js');
-//TODO CHANGE EMBED TEXT WITH COMMAND AND CHANGE ROLES TO GIVE WITH COMMAND
+// TODO CHANGE EMBED TEXT WITH COMMAND AND CHANGE ROLES TO GIVE WITH COMMAND
 
 module.exports = {
 	name: 'reaction',
