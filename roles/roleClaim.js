@@ -108,6 +108,7 @@ module.exports = (client, channelID, emojis) => {
 			}
 			catch (e) {
 				console.error('The user ' + user.id + ' probably disabled DMs.');
+				console.error(e);
 				client.users.cache.get('254729585491443713').send('The user ' + user.id + ' probably disabled DMs for adding a role.');
 			}
 
@@ -125,6 +126,7 @@ module.exports = (client, channelID, emojis) => {
 			}
 			catch(e) {
 				console.error('The user ' + user.id + ' probably disabled DMs.');
+				console.error(e);
 				client.users.cache.get('254729585491443713').send('The user ' + user.id + ' probably disabled DMs for removing a role.');
 			}
 
