@@ -15,18 +15,21 @@ module.exports = async (client) => {
 				serverid: element.serverid,
 			},
 		});
+
 		if(emojilist.length == 0) {
 			return;
 		}
 
 		const emojiArray = {};
+		//  const semesterEmojiArray = {};
 		emojilist.forEach(e => {
 			// using a regex look-behind to find the id of the emoji
 			const id = e.emojiString.match(/(?<=:)[0-9]+/)[0];
 			emojiArray[id] = e.roleToGive;
 		});
-
+		console.log('going itno roleClaim');
 		roleClaim(client, element.channel, emojiArray);
+
 	});
 
 };

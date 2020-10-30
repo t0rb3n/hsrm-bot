@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const {Tags, Emojis} = require('../dbexport.js');
+const { Tags, Emojis } = require('../dbexport.js');
 
 const addReactions = (message, reactions) => {
 	message.react(reactions[0]);
@@ -26,7 +26,7 @@ module.exports = async (client, id, reactions = []) => {
 		.setColor('#0e4aa8')
 		.setTitle('Willkommen auf dem UdE-Discord Server!')
 		.setAuthor('Die verfügbaren Rollen')
-		.setDescription('Hier findet ihr andere Studenten der Hochschule RheinMain. Aktuell unterteilen wir den Server in die einzelnen Fachbereiche.')
+		.setDescription('Hier findet ihr andere Studenten der Hochschule RheinMain. Aktuell unterteilen wir den Server in die einzelnen Fachbereiche. Wähle sowohl dein Studiengang als auch dein Semester. Erst dann erhälst du vollen Zugriff auf alle Channel des Servers.')
 		.setThumbnail('https://i.imgur.com/KbOmm2w.jpg')
 		.setFooter('Drückt auf die entsprechenden Emojis hier unter dieser Nachricht um Teil der Gruppe zu werden');
 
@@ -37,7 +37,8 @@ module.exports = async (client, id, reactions = []) => {
 			serverid: serverid[0].serverid,
 		},
 	});
-//TODO two lists: one for studiengägnge one for semester
+
+	// TODO two lists: one for studiengägnge one for semester
 	const semesterArray = {};
 
 
@@ -51,11 +52,21 @@ module.exports = async (client, id, reactions = []) => {
 			{ name: e.emojiString, value:  e.embedText, inline:true },
 		);
 	});
-	embed.addFields({name: '\u200B', value: '\u200B' });
+
+	// embed.addFields({name: '\u200B', value: '\u200B' });
+
+
+	const semesterEmbed = new Discord.MessageEmbed()
+		.setColor('#0e4aa8')
+		.setTitle('Willkommen auf dem UdE-Discord Server!')
+		.setAuthor('Die verfügbaren Rollen')
+		.setDescription('Wähle hier dein entsprechendes Semester aus.')
+		.setThumbnail('https://i.imgur.com/KbOmm2w.jpg')
+		.setFooter('Drückt auf die entsprechenden Emojis hier unter dieser Nachricht um Teil der Gruppe zu werden');
 
 
 	for(const key in semesterArray) {
-		embed.addFields(
+		semesterEmbed.addFields(
 			{ name: key, value:  semesterArray[key], inline:true },
 		);
 	}
@@ -70,8 +81,14 @@ module.exports = async (client, id, reactions = []) => {
 				channel.send(embed).then((message) => {
 					addReactions(message, reactions);
 				});
+				channel.send(semesterEmbed).then((message) => {
+					addReactions(message, reactions);
+				});
 			}
 			else {
+
+
+
 				// if there are messages in this channel
 				// look for the last message of the bot and edit it
 				// if there is none create one

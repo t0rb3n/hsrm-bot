@@ -26,7 +26,7 @@ module.exports = (client, channelID, emojis) => {
 		const studentenRolle = guild.roles.cache.find((r) => r.name === 'Student HsRm (UdE)');
 		const newcomer = guild.roles.cache.find((r) => r.name === 'Neuankömmling');
 
-		const member = guild.members.cache.find((m) => m.id === user.id);
+		const member = guild.members.cache.find((m) => m.id == user.id);
 
 
 		// check if both Semester and Studiengang are present. Only then give Student Role and remove Neuankömmling.
@@ -101,7 +101,9 @@ module.exports = (client, channelID, emojis) => {
 		so you might be able to fix your roles by yourself
 	*/
 	client.on('messageReactionAdd', async (reaction, user) => {
+
 		if (reaction.message.channel.id === channelID && user.id != process.env.BOT_ID) {
+
 			try {
 				const rolename = await handleReaction(reaction, user, true);
 				await client.users.cache.get(user.id).send(`Du hast nun die Rolle ${rolename}!`);
@@ -117,11 +119,12 @@ module.exports = (client, channelID, emojis) => {
 	});
 	// Maybe useful at some time
 	client.on('messageReactionRemove', async (reaction, user) => {
+
 		if (reaction.message.channel.id === channelID && user.id != process.env.BOT_ID) {
 
 			try{
 				const rolename = await handleReaction(reaction, user, false);
-				await client.users.cache.get(user.id).send(`Du hast nun nicht mehr die Rolle ${rolename}!`);
+				client.users.cache.get(user.id).send(`Du hast nun nicht mehr die Rolle ${rolename}!`);
 			}
 			catch(e) {
 				console.error('The user ' + user.id + ' probably disabled DMs.');

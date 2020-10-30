@@ -27,7 +27,6 @@ client.on('message', async message => {
 
 	// Checks if prefix is there
 	if (!message.content.startsWith(process.env.PREFIX) || message.author.bot) return;
-
 	// if message occurs on server
 	if (message.guild) {
 		// gets the arguments in this commands

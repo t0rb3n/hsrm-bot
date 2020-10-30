@@ -1,6 +1,5 @@
 const { Tags, Emojis } = require('../dbexport.js');
 const Discord = require('discord.js');
-// TODO CHANGE EMBED TEXT WITH COMMAND AND CHANGE ROLES TO GIVE WITH COMMAND
 
 module.exports = {
 	name: 'reaction',
@@ -59,6 +58,7 @@ module.exports = {
 		}
 		else if(args[0] === 'remove') {
 			// remove a reaction
+			// TODO 
 		}
 		else{
 			message.reply('Use either !reaction add or !reaction remove...');
