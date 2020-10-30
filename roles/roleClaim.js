@@ -124,7 +124,7 @@ module.exports = (client, channelID, emojis) => {
 
 			try{
 				const rolename = await handleReaction(reaction, user, false);
-				client.users.cache.get(user.id).send(`Du hast nun nicht mehr die Rolle ${rolename}!`);
+				await client.users.cache.get(user.id).send(`Du hast nun nicht mehr die Rolle ${rolename}!`);
 			}
 			catch(e) {
 				console.error('The user ' + user.id + ' probably disabled DMs.');
