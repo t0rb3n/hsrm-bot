@@ -44,7 +44,7 @@ module.exports = (client, channelID, emojis) => {
 			// then check if they NOT have student
 			const memberHasStudentRole = member.roles.cache.get(studentenRolle.id);
 			if(!memberHasStudentRole) {
-				if (!message.member.roles.cache.some((role) => role.name === 'Master')) {
+				if (message.member.roles.cache.some((role) => role.name === 'Master')) {
 					await member.roles.add(studentenRolle);
 					await member.roles.remove(newcomer);
 					return role.name;
