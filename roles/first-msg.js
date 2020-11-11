@@ -27,7 +27,7 @@ module.exports = async (client, id, reactions = []) => {
 		.setTitle('Willkommen auf dem UdE-Discord Server!')
 		.setAuthor('Die verfügbaren Rollen')
 		.setDescription('Hier findet ihr andere Studenten der Hochschule RheinMain. Aktuell unterteilen wir den Server in die einzelnen Fachbereiche.')
-		.setThumbnail('https://i.imgur.com/KbOmm2w.jpg')
+		.setThumbnail('https://i.imgur.com/6UB9wpw.png')
 		.setFooter('Drückt auf die entsprechenden Emojis hier unter dieser Nachricht um Teil der Gruppe zu werden');
 
 	// Build all the emojis and strings for the given emojilist
