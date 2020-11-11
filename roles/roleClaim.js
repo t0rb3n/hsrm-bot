@@ -46,14 +46,11 @@ module.exports = (client, channelID, emojis) => {
 			if(!memberHasStudentRole) {
 				
 				try {
-					console.log("Before Master");
-					if (message.member.roles.cache.some((role) => role.name === 'Master')) {
-						console.log("Into Master \n");
+					if (member.roles.cache.some((role) => role.name === 'Master')) {
 						await member.roles.add(studentenRolle);
 						await member.roles.remove(newcomer);
 						return role.name;
 					}
-					console.log("After Master");
 
 					// check if they have any semester role before doing a db-call
 					if(await member.roles.cache.find((r) => r.name.match(/.*(Semester).*/)) === undefined) {
