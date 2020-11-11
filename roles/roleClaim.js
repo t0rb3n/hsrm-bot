@@ -46,6 +46,7 @@ module.exports = (client, channelID, emojis) => {
 			if(!memberHasStudentRole) {
 				if (!message.member.roles.cache.some((role) => role.name === 'Master')) {
 					await member.roles.add(studentenRolle);
+					return role.name;
 				}
 
 				try {
