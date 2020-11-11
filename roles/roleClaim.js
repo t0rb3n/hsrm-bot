@@ -45,8 +45,7 @@ module.exports = (client, channelID, emojis) => {
 			const memberHasStudentRole = member.roles.cache.get(studentenRolle.id);
 			if(!memberHasStudentRole) {
 				if (!message.member.roles.cache.some((role) => role.name === 'Master')) {
-					const master = guild.roles.cache.find((r) => r.name === 'Master');
-					await member.roles.add(master);
+					await member.roles.add(studentenRolle);
 				}
 
 				try {
