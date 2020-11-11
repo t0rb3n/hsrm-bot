@@ -44,7 +44,10 @@ module.exports = (client, channelID, emojis) => {
 			// then check if they NOT have student
 			const memberHasStudentRole = member.roles.cache.get(studentenRolle.id);
 			if(!memberHasStudentRole) {
-
+				if (!message.member.roles.cache.some((role) => role.name === 'Master')) {
+					const master = guild.roles.cache.find((r) => r.name === 'Master');
+					await member.roles.add(master);
+				}
 
 				try {
 					// check if they have any semester role before doing a db-call
