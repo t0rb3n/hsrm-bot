@@ -5,7 +5,7 @@ module.exports = {
 	description: 'Restarts the bot!',
 	async execute(client, message, args) {
 
-		if (!message.member.roles.cache.some((role) => role.name === 'admin')) {
+		if (!message.member.roles.cache.some((role) => role.name === 'Admin')) {
 			return message.channel.send('You cannot use this command!');
 		}
 		await message.channel.send('Restarting bot...');
