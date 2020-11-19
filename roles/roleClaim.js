@@ -44,9 +44,14 @@ module.exports = (client, channelID, emojis) => {
 			// then check if they NOT have student
 			const memberHasStudentRole = member.roles.cache.get(studentenRolle.id);
 			if(!memberHasStudentRole) {
-
-
+				
 				try {
+					if (member.roles.cache.some((role) => role.name === 'Master')) {
+						await member.roles.add(studentenRolle);
+						await member.roles.remove(newcomer);
+						return role.name;
+					}
+
 					// check if they have any semester role before doing a db-call
 					if(await member.roles.cache.find((r) => r.name.match(/.*(Semester).*/)) === undefined) {
 						return;
@@ -110,6 +115,7 @@ module.exports = (client, channelID, emojis) => {
 			}
 			catch (e) {
 				console.error('The user ' + user.id + ' probably disabled DMs.');
+				console.error(e);
 				client.users.cache.get('254729585491443713').send('The user ' + user.id + ' probably disabled DMs for adding a role.');
 			}
 
@@ -128,6 +134,7 @@ module.exports = (client, channelID, emojis) => {
 			}
 			catch(e) {
 				console.error('The user ' + user.id + ' probably disabled DMs.');
+				console.error(e);
 				client.users.cache.get('254729585491443713').send('The user ' + user.id + ' probably disabled DMs for removing a role.');
 			}
 
