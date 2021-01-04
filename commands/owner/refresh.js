@@ -1,5 +1,6 @@
 
-const { MessageEmbed } = require('discord.js')
+const { MessageEmbed } = require('discord.js');
+const findServer = require('../../helpers/db/findServer');
 module.exports = {
     name: "refresh",
     category: "owner",
@@ -12,24 +13,18 @@ module.exports = {
             return message.channel.send(`Please enter something you would want to update. (usercount )`)
         }
 
-        let deleteAmount;
 
-        if(args[0].toLowerCase() === 'usercount')
+        if(args[0].toLowerCase() === 'usercount'){
+            console.log("yeet");
+            findServer(message.guild);
+            //first get the matching channel of this server
+            // if none exists, create one
 
-        if (parseInt(args[0]) > 100 ) {
-            deleteAmount = 100;
-        } else {
-            deleteAmount = parseInt(args[0]);
+
+
+        }else{ 
+            return message.channel.send(`Couldn't find something matching to refresh.`)
         }
 
-        await message.channel.bulkDelete(deleteAmount, true);
-
-        const embed = new MessageEmbed()
-            .setTitle(`${message.author.username}`)
-            .setThumbnail(message.author.displayAvatarURL())
-            .setDescription(`successfully deleted ${deleteAmount}`)
-            .setFooter(message.author.username, message.author.displayAvatarURL())
-            .setColor('#f2f2f2')
-        await message.channel.send(embed)
     }
 }
