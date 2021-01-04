@@ -5,6 +5,34 @@ const { list } = require('pm2');
 
 module.exports = (client, channelID, emojis) => {
 
+	async function userHasCourseOfStudy(member){
+		const listOfCourseOfStudies = await Emojis.findAll({
+			attributes: ['roleToGive'],
+			where: {
+				[Op.and]: [
+					{ serverid: guild.id },
+					{ [Op.not]:  {
+						embedText: {
+							[Op.substring]: '%Semester%',
+						},
+					},
+					},
+				],
+			},
+		});
+
+		if(listOfCourseOfStudies.length === 0) {
+			return;
+		}
+
+		// go through every CourseOfStudy on this server and check if user has one of those roles. If so, add the Student Role
+		listOfCourseOfStudies.forEach(async element => {
+			if(await member.roles.cache.get(element.roleToGive)) {
+				return true;
+			}
+		});
+		return false;
+	}
 
 	// add the keys from emojis as reaction to the message
 	const reactions = Object.keys(emojis);
@@ -33,6 +61,17 @@ module.exports = (client, channelID, emojis) => {
 		// if they already have student role, they will not enter this condition
 		if (add) {
 
+			//check if they have any of the roles already
+			try {
+				if(await member.roles.cache.find((r) => r.name.match(/.*(Semester).*/)) !== undefined) {
+					return -1;
+				}
+				
+			} catch (error) {
+				console.error(e);
+			}
+
+
 			// either way add the role they want to have at first
 			try {
 				await member.roles.add(role);
@@ -59,7 +98,7 @@ module.exports = (client, channelID, emojis) => {
 					// getting all Course of Studies from db
 					// gets the non-semester roles from db
 					// similiar to SELECT roleToGive from Emojis where serverid = guild.id AND embedText not like '%Semester%';
-					const listOfCourseOfStudies = await Emojis.findAll({
+					/*const listOfCourseOfStudies = await Emojis.findAll({
 						attributes: ['roleToGive'],
 						where: {
 							[Op.and]: [
@@ -84,9 +123,13 @@ module.exports = (client, channelID, emojis) => {
 
 							await member.roles.add(studentenRolle);
 							await member.roles.remove(newcomer);
-
 						}
 					});
+					*/
+					if(userHasCourseOfStudy(member)){
+						await member.roles.add(studentenRolle);
+						await member.roles.remove(newcomer);
+					}
 				}
 				catch (error) {
 					console.error(error);
@@ -109,7 +152,25 @@ module.exports = (client, channelID, emojis) => {
 		if (reaction.message.channel.id === channelID && user.id != process.env.BOT_ID) {
 			try {
 				const rolename = await handleReaction(reaction, user, true);
-				await client.users.cache.get(user.id).send(`Du hast nun die Rolle ${rolename}!`);
+				if(rolename == -1){ 
+					await client.users.cache.get(user.id).send(`Bitte entferne erst deine andere Rolle, bevor du dir eine neue gibst.`);
+					const userReactions = reaction.message.reactions.cache.filter(react => react.users.cache.has(user.id));
+
+
+					try {
+						for (const react of userReactions.values()) {
+							await react.users.remove(user.id);
+						}
+					}
+					catch (error) {
+						console.error('Failed to remove reactions.');
+	
+	
+					}
+				}else{ 
+					await client.users.cache.get(user.id).send(`Du hast nun die Rolle ${rolename}!`);
+				}
+				
 			}
 			catch (e) {
 				console.error('The user ' + user.id + ' probably disabled DMs.');
@@ -128,6 +189,8 @@ module.exports = (client, channelID, emojis) => {
 			try{
 				const rolename = await handleReaction(reaction, user, false);
 				await client.users.cache.get(user.id).send(`Du hast nun nicht mehr die Rolle ${rolename}!`);
+				
+
 			}
 			catch(e) {
 				console.error('The user ' + user.id + ' probably disabled DMs.');

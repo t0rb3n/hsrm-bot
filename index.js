@@ -5,65 +5,33 @@ const Discord = require('discord.js');
 
 
 const client = new Discord.Client();
+client.prefix = "!"
+
+
 
 client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-
-	// set a new item in the Collection
-	// with the key as the command name and the value as the exported module
-	client.commands.set(command.name, command);
-}
+client.categories = fs.readdirSync("./commands/");
 
 
-client.once('ready', async () => {
-	require('./events/clientReady.js')(client);
+
+["command","event"].forEach(handler => {
+    require(`./handlers/${handler}`)(client);
 });
 
+client.on('guildMemberAdd', async member => {
+    require("./events/guild/memberAdd")(member)
+})
 
-client.on('message', async message => {
-
-	// Checks if prefix is there
-	if (!message.content.startsWith(process.env.PREFIX) || message.author.bot) return;
-
-	// if message occurs on server
-	if (message.guild) {
-		// gets the arguments in this commands
-		const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/);
-		// retrieve commandname
-		const commandName = args.shift().toLowerCase();
-
-		// if this command doesnt exist just return
-		if (!client.commands.has(commandName)) return;
-		// get a command object to call it
-		const command = client.commands.get(commandName);
+client.on('guildMemberRemove', async (message) => {
+    require("./events/guild/memberRemove")(message)
+})
 
 
-		try {
-			command.execute(client, message, args);
-		}
-		catch (error) {
-			console.error(error);
-			message.reply('there was an error trying to execute that command!');
-		}
-	}
-	else {
-		// TODO handle DMs
-		message.reply('I don\'t answer to DMs, just like a loyal hoe.');
-	}
 
-});
-
-if(process.env.PRODUCTION) {
-	client.login(process.env.BOT_TOKEN_PROD);
+// Logging in the bot
+if (process.env.PRODUCTION) {
+    client.login(process.env.BOT_TOKEN_PROD);
 }
 else {
-	client.login(process.env.BOT_TOKEN_DEV);
+    client.login(process.env.BOT_TOKEN_DEV);
 }
-
-
-client.on('guildMemberAdd', member => {
-	require('./events/guildMemberAdd.js')(member, client);
-});
