@@ -1,6 +1,4 @@
 
-const { MessageEmbed } = require('discord.js');
-const findOrCreateServer = require('../../helpers/db/findOrCreateServer');
 const usercountChannel = require('../../helpers/discord/usercountChannel');
 module.exports = {
     name: "add",

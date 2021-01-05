@@ -1,4 +1,5 @@
 const servers = require('./dbConnection')
+
 module.exports = async (guildId) => {
 
     const myserver = await servers.findOrCreate({

@@ -1,6 +1,8 @@
 const servers = require('../db/dbConnection')
 const findOrCreateServer = require('../db/findOrCreateServer');
-module.exports = async (message) => {
+
+//sendmessage as temp fix for memberAdd event, as it only emits a member object
+module.exports = async (message, sendMessage) => {
 
 
     const server = await findOrCreateServer(message.guild.id);
@@ -9,18 +11,16 @@ module.exports = async (message) => {
         return null;
     }
 
-    let channel = null;
     if (server.memberCountChannel) {
 
         const count = message.guild.memberCount;
-
-        const channel = await message.guild.channels.cache.get(server.memberCountChannel)
+        const channel = await message.guild.channels.cache.get(server.memberCountChannel);
         channel.edit({name: "Studenten: " + count});
 
-        message.reply("Updated the user count.");
-
+        if(sendMessage) message.reply("Updated the user count.");
     } else {
-        message.reply("You need to !add channel first, before being able to refresh");
+        if (sendMessage) message.reply('You need to `!add` channel first, before being able to refresh');
     }
+    return true;
 }
 

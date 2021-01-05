@@ -15,8 +15,8 @@ module.exports = {
 
         //todo add more commands
         if (args[0].toLowerCase() === 'usercount') {
-
-            await usercount(message);
+            // TODO fix weird behavior with command sometimes not working
+            const msg = await usercount(message,true);
 
         } else {
             return message.channel.send(`Couldn't find something matching to refresh.`)

@@ -3,6 +3,8 @@ const { MessageEmbed } = require('discord.js')
 module.exports = {
     name: "clear",
     category: "moderation",
+    description: "Clears given amount of messages.",
+    usage: "!clear [1-100]",
     run: async (client, message, args) => {
         if (!message.member.permissions.has("MANAGE_MESSAGES")) // sets the permission
             return message.channel.send(

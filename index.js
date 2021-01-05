@@ -3,7 +3,7 @@ const env = require('dotenv').config();
 const Discord = require('discord.js');
 
 
-const client = new Discord.Client();
+const client = new Discord.Client({ partials: ['MESSAGE', 'REACTION'] });
 client.prefix = "!"
 
 
@@ -28,6 +28,7 @@ client.on('guildMemberAdd', async member => {
 client.on('guildMemberRemove', async (message) => {
     require("./events/guild/memberRemove")(message)
 })
+
 
 
 // Logging in the bot

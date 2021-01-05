@@ -1,10 +1,12 @@
-// this is where you add your stuff for when a user leavesconst { MessageEmbed } = require("discord.js");
-module.exports = async member => {
+const refreshUsercount = require('../../helpers/discord/refreshUserCount');
+const findOrCreateServer = require('../../helpers/db/findOrCreateServer');
 
-    // this is finding the channel goodbye
-    const channel = member.guild.channels.cache.find(ch => ch.name === 'goodbye');
-    if (!channel) return;
+module.exports = async (member) => {
 
-    // this is sending a message
-    channel.send(`Goodbye, ${member}!`);
-};
+    //TODO fix on leaving
+    const msg = await refreshUsercount(member, false);
+    if(!msg){
+        console.error("There was an error with memberRemove.");
+    }
+
+}
