@@ -3,18 +3,21 @@ const env = require('dotenv').config();
 const Discord = require('discord.js');
 
 
-
 const client = new Discord.Client();
 client.prefix = "!"
-
 
 
 client.commands = new Discord.Collection();
 client.categories = fs.readdirSync("./commands/");
 
+if (process.env.DEBUG) {
+    console.log("======================================");
+    console.log("\t DEBUG MODE \t");
+    console.log("======================================");
+}
 
 
-["command","event"].forEach(handler => {
+["command", "event"].forEach(handler => {
     require(`./handlers/${handler}`)(client);
 });
 
@@ -27,11 +30,9 @@ client.on('guildMemberRemove', async (message) => {
 })
 
 
-
 // Logging in the bot
 if (process.env.PRODUCTION) {
     client.login(process.env.BOT_TOKEN_PROD);
-}
-else {
+} else {
     client.login(process.env.BOT_TOKEN_DEV);
 }

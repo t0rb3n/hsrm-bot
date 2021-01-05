@@ -1,6 +1,6 @@
-
-const { MessageEmbed } = require('discord.js');
-const findServer = require('../../helpers/db/findServer');
+const {MessageEmbed} = require('discord.js');
+const findServer = require('../../helpers/db/findOrCreateServer');
+const usercount = require('../../helpers/discord/refreshUserCount');
 module.exports = {
     name: "refresh",
     category: "owner",
@@ -13,16 +13,12 @@ module.exports = {
             return message.channel.send(`Please enter something you would want to update. (usercount )`)
         }
 
+        //todo add more commands
+        if (args[0].toLowerCase() === 'usercount') {
 
-        if(args[0].toLowerCase() === 'usercount'){
-            console.log("yeet");
-            findServer(message.guild);
-            //first get the matching channel of this server
-            // if none exists, create one
+            await usercount(message);
 
-
-
-        }else{ 
+        } else {
             return message.channel.send(`Couldn't find something matching to refresh.`)
         }
 

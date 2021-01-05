@@ -1,6 +1,3 @@
-const { Model } = require('sequelize');
-
-
 async function checkConnection(seq) {
     try {
         await seq.authenticate();
@@ -12,14 +9,12 @@ async function checkConnection(seq) {
 }
 
 
- 
-   
     const Sequelize = require('sequelize');
-    let sequelize = null;
+    let sequelize ;
 
 
     if (process.env.PRODUCTION) {
-        sequelize = new Sequelize(process.env.POSTGRES_URL, {
+        sequelize = new Sequelize(process.env.DATABASE_URL, {
             dialect: 'postgres',
             protocol: 'postgres',
             dialectOptions: {
@@ -29,50 +24,41 @@ async function checkConnection(seq) {
         process.env.BOT_ID = process.env.BOT_ID_PROD;
     }
     else {
-        /*
-        sequelize = new Sequelize('database', 'user', 'password', {
-            host: 'localhost',
-            dialect: 'sqlite',
-            logging: false,
-            // SQLite only
-            storage: './database.sqlite',
-        });
-        */
         sequelize = new Sequelize(process.env.DATABASE_URL, {
             dialect: 'postgres',
             protocol: 'postgres',
             dialectOptions: {
                 ssl: {
-                    rejectUnauthorized: false  
+                    rejectUnauthorized: false
                 }
             },
-            logging: console.log
+            logging: process.env.DEBUG ? console.log : null
         });
-        //sequelize = new Sequelize(process.env.POSTGRES_URL);
-        //process.env.BOT_ID = process.env.BOT_ID_DEV;
-
-
     }
+
     checkConnection(sequelize);
 
 
-    const Server = sequelize.define('server', {
+    const Servers = sequelize.define('server', {
         id: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.BIGINT,
             unique: true,
             primaryKey: true,
             autoIncrement: true,
         },
-        
-        info: Sequelize.JSON,
-        createdAt: Sequelize.DATE,
-        updatedAt: Sequelize.DATE
+        rolesInfo: Sequelize.JSONB,
+        channelId: Sequelize.BIGINT, //the channel where reaction messages are placed
+        memberCountChannel: Sequelize.BIGINT // the channel where the memberCount is shown
+    },{
+        timestamps: false
     });
-    
-    Server.sync({force:true})
+
+
+
+    Servers.sync() //{force:true}
 	.then(() => {
 		console.log('Database & tables created!');
     });
 
 
-module.exports = Server;
+module.exports = Servers;

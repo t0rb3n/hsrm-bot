@@ -25,12 +25,9 @@ module.exports = {
 				await Tags.update({ channel: message.channel.id }, { where: { serverid: message.guild.id } });
 
 				return message.reply('Could not find a tag or something else happend.');
-
-
 			}
+
 			return message.reply('Something went wrong with adding a tag.');
 		}
-
-
 	},
 };
