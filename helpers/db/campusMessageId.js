@@ -1,8 +1,9 @@
 const {Servers} = require('./dbConnection')
 
-module.exports = async (guildId) => {
+module.exports = async (guildid, messageId) => {
 
-    const myserver = await Servers.findOrCreate({
+    const myserver = await servers.update({
+        campusMessageId: messageId,
         where: {
             id: guildId
         }
@@ -11,7 +12,7 @@ module.exports = async (guildId) => {
     if(process.env.DEBUG){
         if(myserver[1]){
             console.log("New server was created.");
-        } else {
+        }else {
             console.log("Server already exists.");
         }
         console.log(myserver[0]);

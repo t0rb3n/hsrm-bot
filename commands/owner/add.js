@@ -1,4 +1,5 @@
 
+const addReaction = require('../../helpers/discord/addReaction');
 const usercountChannel = require('../../helpers/discord/usercountChannel');
 module.exports = {
     name: "add",
@@ -11,14 +12,23 @@ module.exports = {
             );
 
 
-        if(args[0] === 'usercount'){
+        if (args[0] === 'usercount') {
             //create a new membercount channel
-            const membercountChannel = await usercountChannel(message);
+            await usercountChannel(message);
         }
 
 
         //todo add more commands
-        if(args[0] === ''){
+        if (args[0] === 'reaction') {
+            if (args[1] === 'studiengang') {
+                await addStudiengangReaction(); 
+
+            } else if (args[1] === 'semester') {
+                await addSemesterReaction();
+
+            } else if (args[1] === 'campus') {
+                addCampusReaction();
+            }
 
         }
 

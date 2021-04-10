@@ -29,6 +29,6 @@ module.exports = async (message) => {
         await servers.update({memberCountChannel: newChannel.id}, {where: {id: message.guild.id}});
         channel = newChannel;
     }
-    return channel;
+   // return channel;
 }
 

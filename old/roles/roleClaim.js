@@ -1,7 +1,7 @@
 const firstMessage = require('./first-msg');
 const { Op } = require('sequelize');
 const { Tags, Emojis } = require('../dbexport.js');
-const { list } = require('pm2');
+
 
 module.exports = (client, channelID, emojis) => {
 
@@ -66,7 +66,7 @@ module.exports = (client, channelID, emojis) => {
 				if(await member.roles.cache.find((r) => r.name.match(/.*(Semester).*/)) !== undefined) {
 					return -1;
 				}
-				
+
 			} catch (error) {
 				console.error(e);
 			}
@@ -83,7 +83,7 @@ module.exports = (client, channelID, emojis) => {
 			// then check if they NOT have student
 			const memberHasStudentRole = member.roles.cache.get(studentenRolle.id);
 			if(!memberHasStudentRole) {
-				
+
 				try {
 					if (member.roles.cache.some((role) => role.name === 'Master')) {
 						await member.roles.add(studentenRolle);
@@ -152,7 +152,7 @@ module.exports = (client, channelID, emojis) => {
 		if (reaction.message.channel.id === channelID && user.id != process.env.BOT_ID) {
 			try {
 				const rolename = await handleReaction(reaction, user, true);
-				if(rolename == -1){ 
+				if(rolename == -1){
 					await client.users.cache.get(user.id).send(`Bitte entferne erst deine andere Rolle, bevor du dir eine neue gibst.`);
 					const userReactions = reaction.message.reactions.cache.filter(react => react.users.cache.has(user.id));
 
@@ -164,13 +164,13 @@ module.exports = (client, channelID, emojis) => {
 					}
 					catch (error) {
 						console.error('Failed to remove reactions.');
-	
-	
+
+
 					}
-				}else{ 
+				}else{
 					await client.users.cache.get(user.id).send(`Du hast nun die Rolle ${rolename}!`);
 				}
-				
+
 			}
 			catch (e) {
 				console.error('The user ' + user.id + ' probably disabled DMs.');
@@ -189,7 +189,7 @@ module.exports = (client, channelID, emojis) => {
 			try{
 				const rolename = await handleReaction(reaction, user, false);
 				await client.users.cache.get(user.id).send(`Du hast nun nicht mehr die Rolle ${rolename}!`);
-				
+
 
 			}
 			catch(e) {

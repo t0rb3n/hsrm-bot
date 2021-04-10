@@ -27,7 +27,7 @@ module.exports = {
         const embed = new MessageEmbed()
             .setTitle(`${message.author.username}`)
             .setThumbnail(message.author.displayAvatarURL())
-            .setDescription(`successfully deleted ${deleteAmount}`)
+            .setDescription(`successfully deleted ${deleteAmount} messages.`)
             .setFooter(message.author.username, message.author.displayAvatarURL())
             .setColor('#f2f2f2')
         await message.channel.send(embed)

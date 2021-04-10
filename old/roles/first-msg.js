@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const {Tags, Emojis} = require('../dbexport.js');
+const { Tags, Emojis } = require('../dbexport.js');
 
 const addReactions = (message, reactions) => {
 	message.react(reactions[0]);
@@ -37,7 +37,7 @@ module.exports = async (client, id, reactions = []) => {
 			serverid: serverid[0].serverid,
 		},
 	});
-//TODO two lists: one for studiengägnge one for semester
+	// TODO two lists: one for studiengägnge one for semester
 	const semesterArray = {};
 
 
@@ -51,7 +51,7 @@ module.exports = async (client, id, reactions = []) => {
 			{ name: e.emojiString, value:  e.embedText, inline:true },
 		);
 	});
-	embed.addFields({name: '\u200B', value: '\u200B' });
+	// embed.addFields( { name: '\u200B', value: '\u200B' });
 
 
 	for(const key in semesterArray) {

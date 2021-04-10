@@ -8,6 +8,9 @@ async function checkConnection(seq) {
     }
 }
 
+async function getUDE(seq){
+    return await Servers.findOne();
+}
 
     const Sequelize = require('sequelize');
     let sequelize ;
@@ -39,15 +42,20 @@ async function checkConnection(seq) {
     checkConnection(sequelize);
 
 
-    const Servers = sequelize.define('server', {
+    const Servers = sequelize.define('servers', {
         id: {
             type: Sequelize.BIGINT,
             unique: true,
             primaryKey: true,
             autoIncrement: true,
         },
-        rolesInfo: Sequelize.JSONB,
+        semesterEmoji: Sequelize.JSONB,
+        studiengangEmoji: Sequelize.JSONB,
+        campusEmoji: Sequelize.JSONB,
         channelId: Sequelize.BIGINT, //the channel where reaction messages are placed
+        campusMessageId: Sequelize.BIGINT,
+        courseMessageId: Sequelize.BIGINT,
+        semesterMessageId: Sequelize.BIGINT,
         memberCountChannel: Sequelize.BIGINT // the channel where the memberCount is shown
     },{
         timestamps: false
@@ -61,4 +69,23 @@ async function checkConnection(seq) {
     });
 
 
-module.exports = Servers;
+
+
+
+//    module.exports = { Servers, Emojis };
+/*
+let ude = getUDE().then((result) => {
+    return result;
+    //console.log(ude);
+});
+*/
+let ude = await getUDE();
+
+module.exports = {Servers, ude};
+
+
+/*module.exports.ude = async () => {
+    console.log("Bruh");
+    return await getUDE();
+}
+*/

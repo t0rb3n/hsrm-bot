@@ -19,7 +19,7 @@ module.exports = client => {
 
     console.log(`${client.user.username} is now online!`); // consoles logs this when bot is turned on
 
-    //start up routine or something
+    // TODO start up routine or something
     // like when bot is starting onReactionAdd isnt registered
 
   };
