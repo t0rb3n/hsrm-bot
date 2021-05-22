@@ -1,4 +1,4 @@
-const servers = require('../db/dbConnection')
+const {servers} = require('../db/dbConnection')
 const findOrCreateServer = require('../db/findOrCreateServer');
 module.exports = async (message) => {
 
@@ -26,7 +26,7 @@ module.exports = async (message) => {
             }]
         });
 
-        await servers.update({memberCountChannel: newChannel.id}, {where: {id: message.guild.id}});
+        await server.update({memberCountChannel: newChannel.id}, {where: {id: message.guild.id}});
         channel = newChannel;
     }
    // return channel;

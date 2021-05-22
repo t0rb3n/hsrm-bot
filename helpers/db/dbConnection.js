@@ -9,7 +9,7 @@ async function checkConnection(seq) {
 }
 
 async function getUDE(seq){
-    return await Servers.findOne();
+    return await servers.findOne();
 }
 
     const Sequelize = require('sequelize');
@@ -42,16 +42,13 @@ async function getUDE(seq){
     checkConnection(sequelize);
 
 
-    const Servers = sequelize.define('servers', {
+    const servers = sequelize.define('Server', {
         id: {
             type: Sequelize.BIGINT,
             unique: true,
             primaryKey: true,
             autoIncrement: true,
         },
-        semesterEmoji: Sequelize.JSONB,
-        studiengangEmoji: Sequelize.JSONB,
-        campusEmoji: Sequelize.JSONB,
         channelId: Sequelize.BIGINT, //the channel where reaction messages are placed
         campusMessageId: Sequelize.BIGINT,
         courseMessageId: Sequelize.BIGINT,
@@ -61,9 +58,63 @@ async function getUDE(seq){
         timestamps: false
     });
 
+    const studiengang = sequelize.define("Studiengang", {
+        shortName: {
+            type: Sequelize.STRING,
+            unique: true,
+            primaryKey: true
+        },
+        emojiString: Sequelize.STRING,
+        fullName: Sequelize.STRING,
+        role: Sequelize.STRING,
+        serverId: {
+            type: Sequelize.BIGINT,
+            references: {
+                model: "Servers",
+                key: 'id'
+            }
+        }
+    });
+
+    const semester = sequelize.define("Semester", {
+        shortName: {
+            type: Sequelize.STRING,
+            unique: true,
+            primaryKey: true
+        },
+        emojiString: Sequelize.STRING,
+        fullName: Sequelize.STRING,
+        role: Sequelize.STRING,
+        serverId: {
+            type: Sequelize.BIGINT,
+            references: {
+                model: "Servers",
+                key: 'id'
+            }
+        }
+    });
+    const campus = sequelize.define("Campus", {
+        shortName: {
+            type: Sequelize.STRING,
+            unique: true,
+            primaryKey: true
+        },
+        emojiString: Sequelize.STRING,
+        fullName: Sequelize.STRING,
+        role: Sequelize.STRING,
+        serverId: {
+            type: Sequelize.BIGINT,
+            references: {
+                model: "Servers",
+                key: 'id'
+            }
+        }
+    });
 
 
-    Servers.sync() //{force:true}
+
+    //Servers.sync({force:true}) //{force:true}
+    sequelize.sync()
 	.then(() => {
 		console.log('Database & tables created!');
     });
@@ -73,19 +124,14 @@ async function getUDE(seq){
 
 
 //    module.exports = { Servers, Emojis };
-/*
+
 let ude = getUDE().then((result) => {
     return result;
     //console.log(ude);
 });
-*/
-let ude = await getUDE();
 
-module.exports = {Servers, ude};
-
-
-/*module.exports.ude = async () => {
-    console.log("Bruh");
+module.exports = {servers, studiengang, campus, semester};
+module.exports.ude = async () => {
     return await getUDE();
 }
-*/
+

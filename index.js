@@ -18,6 +18,15 @@ if (process.env.DEBUG) {
     console.log();
 }
 
+let server;
+(async () => {
+    try {
+        server = await ude();
+    } catch (e) {
+        console.error("Couldnt get ude server");
+    }
+})();
+
 
 ["command", "event"].forEach(handler => {
     require(`./handlers/${handler}`)(client);
@@ -32,7 +41,7 @@ client.on('guildMemberRemove', async (message) => {
 })
 
 client.on('messageReactionAdd', async (reaction, user) => {
-    require('./events/message/reactionAdd')(reaction, user);
+    require('./events/message/reactionAdd')(reaction, user, server);
 });
 
 // client.on('messageReactionRemove)

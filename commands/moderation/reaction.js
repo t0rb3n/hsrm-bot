@@ -1,4 +1,4 @@
-const {Servers, ude}  = require('../../helpers/db/dbConnection')
+const {servers, studiengang, semester, campus, ude}  = require('../../helpers/db/dbConnection')
 const { MessageEmbed, Channel, MessageAttachment } = require('discord.js')
 const findOrCreateServer = require('../../helpers/db/findOrCreateServer');
 const reactionAdd = require('../../events/message/reactionAdd');
@@ -32,7 +32,7 @@ module.exports = {
 				}]
 			});
 
-			await Servers.update({ channelId: channel.id }, { where: { id: message.guild.id } });
+			await servers.update({ channelId: channel.id }, { where: { id: message.guild.id } });
 
 		} else {
 			channel = await client.channels.fetch(server.channelId);
@@ -121,7 +121,6 @@ function checkMemberHasPermission(message){
 
 
 function getCampusMessageEmbed() {
-
 	const embed = new MessageEmbed()
 		.setColor('#0e4aa8')
 		.setTitle('Wähle deinen Campus aus!')
@@ -132,9 +131,7 @@ function getCampusMessageEmbed() {
 	return embed;
 }
 
-
 function getCourseMessageEmbed() {
-
 	const embed = new MessageEmbed()
 		.setColor('#0e4aa8')
 		.setTitle('Wähle deinen Studiengang aus!')
@@ -146,7 +143,6 @@ function getCourseMessageEmbed() {
 }
 
 function getSemesterMessageEmbed() {
-
 	const embed = new MessageEmbed()
 		.setColor('#0e4aa8')
 		.setTitle('Wähle dein Semester aus!')
@@ -157,40 +153,52 @@ function getSemesterMessageEmbed() {
 	return embed;
 }
 
-function addCampusReactions(message) {
+async function addCampusReactions(message) {
 	//current campus are UDE,KSR,RÜ,WBS,
-	message.react("<:ai:767107540432846888>");
-	message.react("<:mi:767107540433502248>");
-	message.react("🇷");
-	message.react("🇼");
-	message.react("✨");
-
+	const emojis = await campus.findAll({
+		attributes: ['emojiString'],
+		where: {
+			serverId: message.guild.id
+		}
+	});
+	await reactToMessage(emojis, message);
 }
 
 
-function addCourseReactions(message) {
+async function addCourseReactions(message) {
 	//current studiengange
-	message.react("🇺");
-	message.react("🇰");
-	message.react("🇷");
-	message.react("🇼");
-	message.react("✨");
+	const emojis = await studiengang.findAll({
+		attributes: ['emojiString'],
+		where: {
+			serverId: message.guild.id
+		}
+	});
+	await reactToMessage(emojis, message);
+}
+
+async function addSemesterReactions(message){
+	const emojis = await semester.findAll({
+		attributes: ['emojiString'],
+		where: {
+			serverId: message.guild.id
+		}
+	});
+	await reactToMessage(emojis, message);
+}
+
+async function reactToMessage(emojis, message){
+	for(const emoji of emojis){
+		await message.react(emoji.emojiString);
+	}
 }
 
 
-function addSemesterReactions(message){
-	message.react("🇺");
-	message.react("🇰");
-	message.react("🇷");
-	message.react("🇼");
-	message.react("✨");
-}
+
 
 async function updateCampusMessageId(server, msgId) {
 	server.campusMessageId = msgId;
 	await server.save();
 }
-
 async function updateCourseMessageId(server, msgId) {
 	server.courseMessageId = msgId;
 	await server.save();

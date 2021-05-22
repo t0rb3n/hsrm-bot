@@ -1,8 +1,8 @@
-const {Servers} = require('./dbConnection')
+const {servers} = require('./dbConnection')
 
 module.exports = async (guildId) => {
 
-    const myserver = await Servers.findOrCreate({
+    const myserver = await servers.findOrCreate({
         where: {
             id: guildId
         }

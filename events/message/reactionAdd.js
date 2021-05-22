@@ -1,9 +1,8 @@
-const {Servers, ude} = require("../../helpers/db/dbConnection");
+const {servers, studiengang, campus, semester, ude} = require("../../helpers/db/dbConnection");
 
-module.exports = async (reaction, user) => {
+module.exports = async (reaction, user, server) => {
 
     console.log("got reaction");
-    console.log(ude);
 
     //checks if the received reaction is part of an older uncached message
     if(reaction.partial){
@@ -17,10 +16,12 @@ module.exports = async (reaction, user) => {
         }
     }
 
-    if(user.id !== process.env.BOT_ID  ){//&&  reaction.message.channel.id  ){
+    if(user.id !== process.env.BOT_ID &&  reaction.message.channel.id === server.channelId  ){
         console.log(channel);
 
         // handle the reaction
+
+
 
     }
 
