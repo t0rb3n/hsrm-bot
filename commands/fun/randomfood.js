@@ -5,7 +5,7 @@ module.exports = {
     category: "fun",
 	description: 'Delivers a random food from https://randomfood.fynf.dev',
     usage: "!randomfood",
-	run: async (client, message, args) => {
+	async execute (client, message) {
 		const amount = 1;
         const foodUrl = `https://randomfood.fynf.dev/${amount}`;
 
@@ -25,7 +25,7 @@ module.exports = {
                         }
                     )
                     .setFooter('API made with ❤️ by ' +  (!fynf ? 'Fynf' : fynf.tag));//case that we are not on ude server
-                message.channel.send(embed);
+                message.channel.send({embeds: [embed]});
             });
 	}
 };
