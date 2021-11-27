@@ -7,13 +7,12 @@ const logger = require("../lib/log.js");
 const {Button} = require("../lib/db");
 
 
-class Prushka extends Client {
+class Udebot extends Client {
     constructor() {
         super({
             intents: [
                 Intents.FLAGS.GUILDS,
                 Intents.FLAGS.GUILD_MEMBERS,
-                Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
                 Intents.FLAGS.GUILD_MESSAGES,
                 Intents.FLAGS.DIRECT_MESSAGES,
                 Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS
@@ -25,7 +24,7 @@ class Prushka extends Client {
             ],
             presence: {status: "online"}
         });
-        this.owners = ["254729585491443713"]; // Stalk3r#1708
+        this.owners = [process.env.OWNER]; // Stalk3r#1708
         this.prefix = "!";
         this.studiengangButton = {};
         this.campusButton = {};
@@ -111,5 +110,4 @@ class Prushka extends Client {
     }
 }
 
-module
-    .exports = Prushka;
+module.exports = Udebot;

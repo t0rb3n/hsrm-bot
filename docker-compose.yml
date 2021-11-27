@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  ude-bot:
+    build: .
+    environment:
+      - DATABASE_URL= #postgres://user:pw@host:port/db
+      - BOT_TOKEN_PROD= # discord bot token
+      - OWNER= # Discord ID of owner
+    

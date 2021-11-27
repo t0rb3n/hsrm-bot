@@ -5,7 +5,7 @@
 
 module.exports = {
   apps : [{
-    name   : "UDE BOT",
+    name   : "UDEBOT",
     script : "./index.js",
     env_production: {
       NODE_ENV: "PRODUCTION"
