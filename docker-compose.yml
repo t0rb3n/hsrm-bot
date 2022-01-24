@@ -7,4 +7,16 @@ services:
       - DATABASE_URL= #postgres://user:pw@host:port/db
       - BOT_TOKEN_PROD= # discord bot token
       - OWNER= # Discord ID of owner
+  postgresUDE:
+    image: postgres/14-alpine
+    environment:
+      - POSTGRES_PASSWORD=
+      - POSTGRES_USER=
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    deploy:
+      placement:
+        constraints:
+          - node.labels.postgresUDE.postgresUDE-data == true
+
     
